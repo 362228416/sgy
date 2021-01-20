@@ -283,16 +283,24 @@ EscrowFinish::doApply()
     auto const k = keylet::escrow(
         ctx_.tx[sfOwner], ctx_.tx[sfOfferSequence]);
     auto const slep = ctx_.view().peek(k);
-    if (! slep)
+    
+    if (! slep) {
+        
         return tecNO_TARGET;
+    }
+        
 
     if (ctx_.view ().rules().enabled(fix1571))
     {
         auto const now = ctx_.view().info().parentCloseTime;
 
-        if ((*slep)[~sfFinishAfter] && ! after(now, (*slep)[sfFinishAfter]))
+        if ((*slep)[~sfFinishAfter] && ! after(now, (*slep)[sfFinishAfter])) 
+            printf("不能去完成1\n");
+        if ((*slep)[~sfFinishAfter] && ! after(now, (*slep)[sfFinishAfter])) 
             return tecNO_PERMISSION;
 
+        if ((*slep)[~sfCancelAfter] && after(now, (*slep)[sfCancelAfter]))
+            printf("不能去完成2\n");
         if ((*slep)[~sfCancelAfter] && after(now, (*slep)[sfCancelAfter]))
             return tecNO_PERMISSION;
     }
@@ -301,8 +309,16 @@ EscrowFinish::doApply()
         if ((*slep)[~sfFinishAfter] &&
             ctx_.view().info().parentCloseTime.time_since_epoch().count() <=
             (*slep)[sfFinishAfter])
+            printf("不能去完成3\n");
+        if ((*slep)[~sfFinishAfter] &&
+            ctx_.view().info().parentCloseTime.time_since_epoch().count() <=
+            (*slep)[sfFinishAfter])
             return tecNO_PERMISSION;
 
+        if ((*slep)[~sfCancelAfter] &&
+            ctx_.view().info().parentCloseTime.time_since_epoch().count() <=
+            (*slep)[sfCancelAfter])
+            printf("不能去完成4 %d  - %d\n", ctx_.view().info().parentCloseTime.time_since_epoch().count(), (*slep)[sfCancelAfter]);
         if ((*slep)[~sfCancelAfter] &&
             ctx_.view().info().parentCloseTime.time_since_epoch().count() <=
             (*slep)[sfCancelAfter])

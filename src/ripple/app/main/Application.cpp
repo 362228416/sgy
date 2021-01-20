@@ -1136,9 +1136,14 @@ bool ApplicationImp::setup()
     Pathfinder::initPathTable();
 
     auto const startUp = config_->START_UP;
+    
+    
+    
     if (startUp == Config::FRESH)
     {
         JLOG(m_journal.info()) << "Starting new Ledger";
+
+        JLOG(m_journal.info()) << "========== load ledger 1=============";
 
         startGenesisLedger ();
     }
@@ -1148,6 +1153,8 @@ bool ApplicationImp::setup()
     {
         JLOG(m_journal.info()) <<
             "Loading specified Ledger";
+            
+        JLOG(m_journal.info()) << "========== load ledger 2=============";
 
         if (!loadOldLedger (config_->START_LEDGER,
                             startUp == Config::REPLAY,
@@ -1160,6 +1167,8 @@ bool ApplicationImp::setup()
     }
     else if (startUp == Config::NETWORK)
     {
+        
+        JLOG(m_journal.info()) << "========== load ledger 3=============";
         if (!config_->standalone())
             m_networkOPs->setNeedNetworkLedger();
 
@@ -1167,6 +1176,7 @@ bool ApplicationImp::setup()
     }
     else
     {
+        JLOG(m_journal.info()) << "========== load ledger 4=============";
         startGenesisLedger ();
     }
 

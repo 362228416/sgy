@@ -94,7 +94,7 @@ public:
         REPLAY,
         NETWORK
     };
-    StartUpType                 START_UP = NORMAL;
+    StartUpType                 START_UP = LOAD;
 
     bool                        START_VALID = false;
 

@@ -42,7 +42,7 @@ static inline
 std::string const&
 systemCurrencyCode ()
 {
-    static std::string const code = "SGY";
+    static std::string const code = "XRP";
     return code;
 }
 
